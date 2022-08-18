@@ -3,48 +3,50 @@ from rest_framework import serializers
 from users.serializers import *
 from .models import *
 
-class CourseSerializer(serializers.ModelSerializer):
+# for get method
+class CourseListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields =['id','name','descriptions']
-        
-class courseSerializer(serializers.ModelSerializer):
+# for post/put method 
+class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields =['name']
         
 class TeachesSerializer(serializers.ModelSerializer):
-    teacher =teacherSerializer()
-    course= courseSerializer()
+    teacher =TeacherSerializer()
+    course= CourseSerializer()
     class Meta:
         model = Teaches
         fields=["id","course","teacher"]
-        
-class EnrollSerializer(serializers.ModelSerializer):
-    student = studentSerializer()
-    course=  courseSerializer()
+
+ # for post/put method of enroll   
+class EnrollSerializer(serializers.Serializer):
+    student = serializers.IntegerField()
+    course=  serializers.IntegerField()
+    
+    
+# for get method of enroll
+class EnrollListSerializer(serializers.ModelSerializer):
+    student = StudentListSerializer()
+    course=  CourseListSerializer()
     class Meta:
         model = Student
         fields=['id','student','course']
-        
-class enrollSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
-    course=  courseSerializer()
-    class Meta:
-        model = Student
-        fields=['id','student','course']
-        
-class ResultSerializer(serializers.ModelSerializer):
-    course= courseSerializer()
-    teacher = teacherSerializer()
-    student = studentSerializer()
+       
+# for get method 
+class ResultListSerializer(serializers.ModelSerializer):
+    course= CourseListSerializer()
+    teacher = TeacherListSerializer()
+    student = StudentListSerializer()
     class Meta:
         model = Result
         fields =['id','course','teacher','student','grade']
-    
-class resultSerializer(serializers.ModelSerializer):
-    course= courseSerializer()
-    teacher = teacherSerializer()
+# for post/put methods
+class ResultSerializer(serializers.Serializer):
+    course= CourseSerializer()
+    teacher = TeacherSerializer()
     student = StudentSerializer()
     class Meta:
         model = Result
