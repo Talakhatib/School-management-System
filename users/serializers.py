@@ -1,8 +1,10 @@
+
 from rest_framework import serializers
 from .models import *
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 # class SnippetSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,36 +13,41 @@ class UserSerializer(serializers.ModelSerializer):
         fields=['id','username','first_name','last_name','email']
         
 class StudentSerializer(serializers.ModelSerializer):
-    username=serializers.ReadOnlyField(source='user.username')
+    # username=serializers.ReadOnlyField(source='user.username')
     first_name= serializers.ReadOnlyField(source='user.first_name')
     last_name= serializers.ReadOnlyField(source='user.last_name')
-    email= serializers.ReadOnlyField(source='user.email')
-    phone= serializers.ReadOnlyField(source='user.phone')
-    birthdate= serializers.ReadOnlyField(source='user.birthdate')
+    # email= serializers.ReadOnlyField(source='user.email')
+    # phone= serializers.ReadOnlyField(source='user.phone')
+    # birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Student
-        fields=['id','username','first_name','last_name','email','phone','birthdate','language']
+        fields=['id','first_name','last_name','language']
         
 class studentSerializer(serializers.ModelSerializer):
     
-    first_name= serializers.ReadOnlyField(source='user.first_name')
-    last_name= serializers.ReadOnlyField(source='user.last_name')
+    # username = serializers.CharField(required=True, max_length=20)
+    first_name = serializers.CharField(required=True,max_length=30)
+    last_name = serializers.CharField(required=True,max_length=30)     
+    # email = serializers.EmailField(max_length=250,required=True,)
+    # password = serializers.CharField(max_length=250,write_only=True,required=True, validators=[validate_password])                                
+    # phone=serializers.CharField(max_length=8, validators=[RegexValidator(r'^\d{8}$')])
+    # birthdate=serializers.DateField()
     class Meta:
         model= Student
-        fields=['id','first_name','last_name']
+        fields=['first_name','last_name']
         
 
         
 class TeacherSerializer(serializers.ModelSerializer):
-    username=serializers.ReadOnlyField(source='user.username')
+    # username=serializers.ReadOnlyField(source='user.username')
     first_name= serializers.ReadOnlyField(source='user.first_name')
     last_name= serializers.ReadOnlyField(source='user.last_name')
     email= serializers.ReadOnlyField(source='user.email')
-    phone= serializers.ReadOnlyField(source='user.phone')
-    birthdate= serializers.ReadOnlyField(source='user.birthdate')
+    # phone= serializers.ReadOnlyField(source='user.phone')
+    # birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Teacher
-        fields=['username','first_name','last_name','email','phone','birthdate','salary']
+        fields=['id','first_name','last_name','email','salary']
 
 class teacherSerializer(serializers.ModelSerializer):
    
