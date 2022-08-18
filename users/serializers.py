@@ -27,7 +27,7 @@ class studentSerializer(serializers.ModelSerializer):
     last_name= serializers.ReadOnlyField(source='user.last_name')
     class Meta:
         model= Student
-        fields=['first_name','last_name']
+        fields=['id','first_name','last_name']
         
 
         
