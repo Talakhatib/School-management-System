@@ -19,7 +19,7 @@ class StudentSerializer(serializers.ModelSerializer):
     birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Student
-        fields=["id",'username','first_name','last_name','email','phone','birthdate','language']
+        fields=['id','username','first_name','last_name','email','phone','birthdate','language']
         
 class studentSerializer(serializers.ModelSerializer):
     
