@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'users',
     'courses',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -114,9 +115,21 @@ REST_FRAMEWORK = {
       ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser', 
     ),
 
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        "Auth Token eg [Bearer (JWT) ]": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 

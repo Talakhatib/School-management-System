@@ -6,7 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status,generics,permissions
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
-
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
+from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 class UserDetailAPI(APIView):
@@ -33,7 +35,7 @@ class TeacherList(APIView):
         serializer = TeacherSerializer(teacher,many=True)
         return Response(serializer.data)
     
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=TeacherSerializer)
     def post(self,request,fomart=None):
         serializer = TeacherSerializer(data=request.data)
         if serializer.is_valid():
@@ -57,7 +59,7 @@ class TeacherDetail(APIView):
         serializer = TeacherSerializer(teacher)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=TeacherSerializer)
     def put(self,request,pk,formate=None):
         teacher = self.get_object(pk)
         serializer = TeacherSerializer(teacher,data=request.data)
@@ -82,7 +84,7 @@ class StudentList(APIView):
         serializer = StudentSerializer(student,many=True)
         return Response(serializer.data) 
     
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=StudentSerializer)
     def post(self,request,fomart=None):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
@@ -105,7 +107,7 @@ class StudentDetail(APIView):
         serializer = StudentSerializer(student)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=StudentSerializer)
     def put(self,request,pk,formate=None):
         student = self.get_object(pk)
         serializer = StudentSerializer(student,data=request.data)
@@ -119,4 +121,8 @@ class StudentDetail(APIView):
         student = self.get_object(pk)
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)   
+
+class LoginView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
 

@@ -1,0 +1,1 @@
+[{"model": "courses.teaches", "pk": 1, "fields": {"teacher": 1, "course": 1}}, {"model": "courses.teaches", "pk": 2, "fields": {"teacher": 2, "course": 3}}]

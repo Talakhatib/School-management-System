@@ -1,0 +1,1 @@
+[{"model": "courses.result", "pk": 1, "fields": {"course": 1, "teacher": 1, "student": 1, "grade": 10.5}}]

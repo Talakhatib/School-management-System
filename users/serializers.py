@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # class SnippetSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,6 +49,19 @@ class teacherSerializer(serializers.ModelSerializer):
     class Meta:
         model= Teacher
         fields=['first_name','last_name']    
+        
+class LoginSerializer(TokenObtainPairSerializer):
+    
+    @classmethod
+    def get_token(cls, user):
+        
+        token = super(LoginSerializer, cls).get_token(user)
+        user.save()
+       
+        token["username"] = user.username
+        
+        return token
+ 
     
         
 class RegisterSerializer(serializers.ModelSerializer):

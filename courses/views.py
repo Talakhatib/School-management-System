@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status,generics,permissions
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 
 # Create your views here.
 class CourseList(APIView):
@@ -15,7 +16,7 @@ class CourseList(APIView):
         serializer = CourseSerializer(course,many=True)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=CourseSerializer)
     def post(self,request):
         serializer = CourseSerializer(data=request.data)
         if serializer.is_valid():
@@ -36,7 +37,7 @@ class CourseDetail(APIView):
         serializer = CourseSerializer(course)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=CourseSerializer)
     def put(self,request,pk,formate=None):
         course = self.get_object(pk)
         serializer = CourseSerializer(course,data=request.data)
@@ -57,7 +58,7 @@ class TeachesList(APIView):
         serializer = TeachesSerializer(teaches,many=True)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=TeachesSerializer)
     def post(self,request):
         serializer = TeachesSerializer(data=request.data)
         if serializer.is_valid():
@@ -74,7 +75,7 @@ class TeachesDetail(APIView):
         serializer = TeachesSerializer(teaches)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=TeachesSerializer)
     def put(self,request,pk,formate=None):
         teaches = get_object_or_404(Teaches,pk=pk)
         serializer = TeachesSerializer(teaches,data=request.data)
@@ -97,7 +98,7 @@ class EnrollList(APIView):
         serializer = EnrollSerializer(enroll,many=True)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=EnrollSerializer)
     def post(self,request):
         serializer = EnrollSerializer(data=request.data)
         if serializer.is_valid():
@@ -114,8 +115,8 @@ class EnrollDetail(APIView):
         serializer = EnrollSerializer(enroll)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
-    def put(self,request,pk):
+    @swagger_auto_schema(request_body=EnrollSerializer)
+    def put(self,request,pk): 
         enroll = get_object_or_404(Enroll,pk=pk)
         serializer = EnrollSerializer(enroll,data=request.data)
         if serializer.is_valid():
@@ -139,7 +140,7 @@ class ResultList(APIView):
         serializer = ResultSerializer(result,many=True)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=ResultSerializer)
     def post(self,request):
         serializer = ResultSerializer(data=request.data)
         if serializer.is_valid():
@@ -162,7 +163,7 @@ class ResultDetail(APIView):
         serializer = ResultSerializer(result)
         return Response(serializer.data)
 
-    # @swagger_auto_schema(request_body=SnippetSerializer)
+    @swagger_auto_schema(request_body=ResultSerializer)
     def put(self,request,pk,formate=None):
         result = self.get_object(pk)
         serializer = ResultSerializer(result,data=request.data)
