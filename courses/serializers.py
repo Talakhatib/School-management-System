@@ -22,7 +22,14 @@ class TeachesSerializer(serializers.ModelSerializer):
         
 class EnrollSerializer(serializers.ModelSerializer):
     student = studentSerializer()
-    course= courseSerializer()
+    course=  courseSerializer()
+    class Meta:
+        model = Student
+        fields=['id','student','course']
+        
+class enrollSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+    course=  courseSerializer()
     class Meta:
         model = Student
         fields=['id','student','course']
@@ -35,5 +42,12 @@ class ResultSerializer(serializers.ModelSerializer):
         model = Result
         fields =['id','course','teacher','student','grade']
     
+class resultSerializer(serializers.ModelSerializer):
+    course= courseSerializer()
+    teacher = teacherSerializer()
+    student = StudentSerializer()
+    class Meta:
+        model = Result
+        fields =['id','course','teacher','student','grade']
     
     

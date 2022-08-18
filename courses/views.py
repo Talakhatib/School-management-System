@@ -95,7 +95,7 @@ class EnrollList(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
         enroll = Enroll.objects.all()
-        serializer = EnrollSerializer(enroll,many=True)
+        serializer = enrollSerializer(enroll,many=True)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=EnrollSerializer)
@@ -112,7 +112,7 @@ class EnrollDetail(APIView):
   
     def get(self,request,pk):
         enroll = get_object_or_404(Enroll,pk=pk)
-        serializer = EnrollSerializer(enroll)
+        serializer = enrollSerializer(enroll)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=EnrollSerializer)
@@ -137,7 +137,7 @@ class ResultList(APIView):
 
     def get(self,request):
         result = Result.objects.all()
-        serializer = ResultSerializer(result,many=True)
+        serializer = resultSerializer(result,many=True)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=ResultSerializer)
@@ -160,7 +160,7 @@ class ResultDetail(APIView):
 
     def get(self,request,pk,formate=None):
         result = self.get_object(pk)
-        serializer = ResultSerializer(result)
+        serializer = resultSerializer(result)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=ResultSerializer)
