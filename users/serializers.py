@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields=['username','first_name','last_name','email']
+        fields=['id','username','first_name','last_name','email']
         
 class StudentSerializer(serializers.ModelSerializer):
     username=serializers.ReadOnlyField(source='user.username')
@@ -19,7 +19,7 @@ class StudentSerializer(serializers.ModelSerializer):
     birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Student
-        fields=['username','first_name','last_name','email','phone','birthdate','language']
+        fields=["id",'username','first_name','last_name','email','phone','birthdate','language']
         
 class studentSerializer(serializers.ModelSerializer):
     
