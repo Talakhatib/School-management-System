@@ -32,14 +32,14 @@ class TeacherList(APIView):
 
     def get(self,request,fomrat=None):
         teacher= Teacher.objects.all()
-        serializer = TeacherSerializer(teacher,many=True)
+        serializer = TeacherListSerializer(teacher,many=True)
         return Response(serializer.data)
     
     @swagger_auto_schema(request_body=TeacherSerializer)
     def post(self,request,fomart=None):
         serializer = TeacherSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.create(request.data)
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
@@ -56,7 +56,7 @@ class TeacherDetail(APIView):
 
     def get(self,request,pk,formate=None):
         teacher = self.get_object(pk)
-        serializer = TeacherSerializer(teacher)
+        serializer = TeacherListSerializer(teacher)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=TeacherSerializer)
@@ -81,14 +81,14 @@ class StudentList(APIView):
 
     def get(self,request,fomrat=None):
         student= Student.objects.all()
-        serializer = StudentSerializer(student,many=True)
+        serializer = StudentListSerializer(student,many=True)
         return Response(serializer.data) 
     
     @swagger_auto_schema(request_body=StudentSerializer)
     def post(self,request,fomart=None):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.create(request.data)
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)   
     
@@ -104,7 +104,7 @@ class StudentDetail(APIView):
 
     def get(self,request,pk,formate=None):
         student = self.get_object(pk)
-        serializer = StudentSerializer(student)
+        serializer = StudentListSerializer(student)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=StudentSerializer)
