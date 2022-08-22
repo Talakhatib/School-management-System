@@ -55,14 +55,14 @@ class TeachesList(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
         teaches = Teaches.objects.all()
-        serializer = TeachesSerializer(teaches,many=True)
+        serializer = TeachesListSerializer(teaches,many=True)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=TeachesSerializer)
     def post(self,request):
         serializer = TeachesSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.create(request.data)
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
@@ -72,13 +72,13 @@ class TeachesDetail(APIView):
 
     def get(self,request,pk,formate=None):
         teaches = get_object_or_404(Teaches,pk=pk)
-        serializer = TeachesSerializer(teaches)
+        serializer = TeachesListSerializer(teaches)
         return Response(serializer.data)
 
-    @swagger_auto_schema(request_body=TeachesSerializer)
+    @swagger_auto_schema(request_body=TeachesUpdateSerializer)
     def put(self,request,pk,formate=None):
         teaches = get_object_or_404(Teaches,pk=pk)
-        serializer = TeachesSerializer(teaches,data=request.data)
+        serializer = TeachesUpdateSerializer(teaches,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -115,10 +115,10 @@ class EnrollDetail(APIView):
         serializer = EnrollListSerializer(enroll)
         return Response(serializer.data)
 
-    @swagger_auto_schema(request_body=EnrollPutSerializer)
+    @swagger_auto_schema(request_body=EnrollUpdateSerializer)
     def put(self,request,pk): 
         enroll = get_object_or_404(Enroll,pk=pk)
-        serializer = EnrollPutSerializer(enroll,data=request.data)
+        serializer = EnrollUpdateSerializer(enroll,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -144,7 +144,7 @@ class ResultList(APIView):
     def post(self,request):
         serializer = ResultSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.create(request.data)
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
@@ -163,10 +163,10 @@ class ResultDetail(APIView):
         serializer = ResultListSerializer(result)
         return Response(serializer.data)
 
-    @swagger_auto_schema(request_body=ResultSerializer)
+    @swagger_auto_schema(request_body=ResultUpdateSerializer)
     def put(self,request,pk,formate=None):
         result = self.get_object(pk)
-        serializer = ResultSerializer(result,data=request.data)
+        serializer = ResultUpdateSerializer(result,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

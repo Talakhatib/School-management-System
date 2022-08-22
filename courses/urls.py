@@ -9,6 +9,6 @@ urlpatterns = [
     path('enroll/',views.EnrollList.as_view(),name='enroll_list'),
     path('enroll/<int:pk>/',views.EnrollDetail.as_view(),name='enroll_detail'),
     path('results/',views.ResultList.as_view(),name='result_list'),
-    path('results/<int:pk>/',views.EnrollDetail.as_view(),name='result_detail'),
+    path('results/<int:pk>/',views.ResultDetail.as_view(),name='result_detail'),
 ]
 
