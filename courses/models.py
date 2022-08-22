@@ -4,7 +4,7 @@ from users.models import *
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
-    descriptions = models.TextField(blank=True,null=True)
+    descriptions = models.CharField(blank=True,null=True,max_length=100)
     
     def __str__(self) :
         return self.name

@@ -106,16 +106,7 @@ class StudentDetail(APIView):
         student = self.get_object(pk)
         serializer = StudentListSerializer(student)
         return Response(serializer.data)
-
-    @swagger_auto_schema(request_body=StudentSerializer)
-    def put(self,request,pk,formate=None):
-        student = self.get_object(pk)
-        serializer = StudentSerializer(student,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
+    
 
     def delete(self,request,pk,format=None):
         student = self.get_object(pk)

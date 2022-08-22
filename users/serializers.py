@@ -23,10 +23,10 @@ class StudentListSerializer(serializers.ModelSerializer):
     # birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Student
-        fields=['id','first_name','last_name','language']
+        fields=['first_name','last_name','language']
         
         
-#   for post and put methods of students      
+#   for post methods of students      
 class StudentSerializer(serializers.Serializer):
     username = serializers.CharField(required=True, max_length=20)
     first_name = serializers.CharField(required=True,max_length=30)
@@ -51,16 +51,36 @@ class StudentSerializer(serializers.Serializer):
         student.user=user
         student.language=data['language']
         student.save()
-        
+#  put user 
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+    class Meta:
+            model = User
+            fields = ( 'password', 'password2')
 
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+
+        return attrs
+
+    def update(self, instance, validated_data):
+
+        instance.set_password(validated_data['password'])
+        instance.save()
+
+        return instance
+     
+        
+        
+        
 #  for get method of teachers       
 class TeacherListSerializer(serializers.ModelSerializer):
-    # username=serializers.ReadOnlyField(source='user.username')
+   
     first_name= serializers.ReadOnlyField(source='user.first_name')
     last_name= serializers.ReadOnlyField(source='user.last_name')
     email= serializers.ReadOnlyField(source='user.email')
-    # phone= serializers.ReadOnlyField(source='user.phone')
-    # birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Teacher
         fields=['id','first_name','last_name','email','salary']

@@ -102,8 +102,8 @@ class EnrollList(APIView):
     def post(self,request):
         serializer = EnrollSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+                serializer.create(request.data)
+                return Response(serializer.data,status=status.HTTP_201_CREATED)     
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 class EnrollDetail(APIView):
@@ -115,10 +115,10 @@ class EnrollDetail(APIView):
         serializer = EnrollListSerializer(enroll)
         return Response(serializer.data)
 
-    @swagger_auto_schema(request_body=EnrollSerializer)
+    @swagger_auto_schema(request_body=EnrollPutSerializer)
     def put(self,request,pk): 
         enroll = get_object_or_404(Enroll,pk=pk)
-        serializer = EnrollSerializer(enroll,data=request.data)
+        serializer = EnrollPutSerializer(enroll,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
