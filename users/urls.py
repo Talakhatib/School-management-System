@@ -2,7 +2,7 @@ from django.urls import path,include
 from users import views
 
 urlpatterns = [
-    path('user/',views.UserDetailAPI.as_view(),name='user_detail'),
+    path('user/<int:pk>',views.UserDetailAPI.as_view(),name='user_detail'),
     path('login/',views.LoginView.as_view(),name='token_obtain_pair'),
     path('register/',views.RegisterView.as_view(),name='register'),
     path('teacher/',views.TeacherList.as_view(),name='teachers_list'),

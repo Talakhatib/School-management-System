@@ -6,12 +6,33 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-# class SnippetSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields=['id','username','first_name','last_name','email']
+        
+# for put user     
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+    class Meta:
+            model = User
+            fields = ( 'password', 'password2')
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+
+        return attrs
+
+    def update(self, instance, validated_data):
+
+        instance.set_password(validated_data['password'])
+        instance.save()
+
+        return instance
+     
         
 # for get method of students
 class StudentListSerializer(serializers.ModelSerializer):
@@ -51,29 +72,7 @@ class StudentSerializer(serializers.Serializer):
         student.user=user
         student.language=data['language']
         student.save()
-#  put user 
-class ChangePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    class Meta:
-            model = User
-            fields = ( 'password', 'password2')
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
-
-        return attrs
-
-    def update(self, instance, validated_data):
-
-        instance.set_password(validated_data['password'])
-        instance.save()
-
-        return instance
-     
-        
-        
+   
         
 #  for get method of teachers       
 class TeacherListSerializer(serializers.ModelSerializer):
@@ -163,8 +162,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             # is_admin=validated_data['is_admin'],
             # is_superuser=validated_data['is_admin']
          )
-         user.is_admin=True
-         user.is_superuser=True
+         user.is_admin=False
+         user.is_superuser=False
          user.set_password(validated_data['password'])
          user.save()
          return user
