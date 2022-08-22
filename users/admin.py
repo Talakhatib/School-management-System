@@ -2,8 +2,18 @@ from django.contrib import admin
 from .models import Student,Teacher,User
 # Register your models here.
 
-admin.site.register([Student,Teacher])
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('id','user','language')
+    list_filter = ('language',)
+    search_fields = ['user__username']
 
+admin.site.register(Student,StudentAdmin)
+
+class TeacherAdmin(admin.ModelAdmin):
+    list_display = ('id','user','salary')
+    search_fields = ['user__username']
+
+admin.site.register(Teacher,TeacherAdmin)
 
 class UserAdmin(admin.ModelAdmin):
     
