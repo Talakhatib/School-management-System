@@ -18,15 +18,12 @@ class UserDetailAPI(APIView):
         user = User.objects.get(id=request.user.id)
         serializer= UserSerializer(user)
         return Response(serializer.data)
+
+class ChangePasswordView(generics.UpdateAPIView):
     
-    # @swagger_auto_schema(request_body=ChangePasswordSerializer)
-    # def put(self,request,pk,formate=None):
-    #     user = self.get_object(pk)
-    #     serializer =ChangePasswordSerializer(user,data=request.data)
-    #     if serializer.validate():
-    #         serializer.update,(user,request.data)
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer  
         
        
     
