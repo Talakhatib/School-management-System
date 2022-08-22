@@ -93,8 +93,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
 class Student(models.Model):
     language_choices=[
-        ('en','english'),
-        ('fr','french'),
+        ('en','en'),
+        ('fr','fr'),
     ]
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     language=models.CharField(max_length=10,choices=language_choices)
