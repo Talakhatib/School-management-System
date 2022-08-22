@@ -83,7 +83,7 @@ class TeacherListSerializer(serializers.ModelSerializer):
     email= serializers.ReadOnlyField(source='user.email')
     class Meta:
         model= Teacher
-        fields=['id','first_name','last_name','email','salary']
+        fields=['first_name','last_name','email','salary']
         
         
 # for post and put of teachers
