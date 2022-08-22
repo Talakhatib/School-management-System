@@ -48,8 +48,12 @@ class CourseDetail(APIView):
 
     def delete(self,request,pk,format=None):
         course = self.get_object(pk)
-        course.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+           course.delete()
+        except:
+            return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+       
     
 class TeachesList(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -87,8 +91,12 @@ class TeachesDetail(APIView):
 
     def delete(self,request,pk,format=None):
         teaches = get_object_or_404(Teaches,pk=pk)
-        teaches.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+           teaches.delete()
+        except:
+            return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+    
     
 class EnrollList(APIView):
     
@@ -127,8 +135,12 @@ class EnrollDetail(APIView):
 
     def delete(self,request,pk):
         enroll = get_object_or_404(Enroll,pk=pk)
-        enroll.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+           enroll.delete()
+        except:
+            return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+    
     
 class ResultList(APIView):
     
@@ -175,7 +187,11 @@ class ResultDetail(APIView):
 
     def delete(self,request,pk,format=None):
         result = self.get_object(pk)
-        result.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+          result.delete()
+        except:
+            return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+
     
 
