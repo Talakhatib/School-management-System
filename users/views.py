@@ -73,8 +73,11 @@ class TeacherDetail(APIView):
 
     def delete(self,request,pk,format=None):
         teacher = self.get_object(pk)
-        teacher.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+           teacher.delete()
+        except: 
+             return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_204_NO_CONTENT)
 
 class StudentList(APIView):
         
@@ -112,8 +115,11 @@ class StudentDetail(APIView):
 
     def delete(self,request,pk,format=None):
         student = self.get_object(pk)
-        student.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)   
+        try:
+            student.delete()
+        except:
+            return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_204_NO_CONTENT)   
 
 class LoginView(TokenObtainPairView):
     permission_classes = (AllowAny,)
