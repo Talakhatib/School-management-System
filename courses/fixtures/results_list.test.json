@@ -1,1 +1,1 @@
-[{"model": "courses.result", "pk": 1, "fields": {"course": 1, "teacher": 1, "student": 1, "grade": 10.5}}]
+[{"model": "courses.result", "pk": 1, "fields": {"course": 1, "teacher": 1, "student": 1, "grade": 12.0, "date_created": "2022-08-24T09:39:15.399Z"}}, {"model": "courses.result", "pk": 2, "fields": {"course": 3, "teacher": 2, "student": 1, "grade": 16.0, "date_created": "2022-08-24T09:39:38.178Z"}}]

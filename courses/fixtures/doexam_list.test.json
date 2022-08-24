@@ -1,0 +1,1 @@
+[{"model": "courses.doexam", "pk": 1, "fields": {"student": 1, "course": 1, "date_created": "2022-08-24T09:38:20.223Z"}}, {"model": "courses.doexam", "pk": 2, "fields": {"student": 1, "course": 3, "date_created": "2022-08-24T09:38:35.032Z"}}]

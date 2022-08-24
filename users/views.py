@@ -48,7 +48,7 @@ class TeacherList(APIView):
         serializer = TeacherSerializer(data=request.data)
         if serializer.is_valid():
             serializer.create(request.data)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response({"response":"success","data":serializer.data},status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -74,7 +74,7 @@ class TeacherDetail(APIView):
            teacher.delete()
         except: 
              return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
-        return Response("deleted !",status=status.HTTP_204_NO_CONTENT)
+        return Response("deleted !",status=status.HTTP_200_OK)
 
 class StudentList(APIView):
         
@@ -91,7 +91,7 @@ class StudentList(APIView):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.create(request.data)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response({"response":"success","data":serializer.data},status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)   
     
 class StudentDetail(APIView):
@@ -116,7 +116,7 @@ class StudentDetail(APIView):
             student.delete()
         except:
             return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
-        return Response("deleted !",status=status.HTTP_204_NO_CONTENT)   
+        return Response("deleted !",status=status.HTTP_200_OK)   
 
 class LoginView(TokenObtainPairView):
     permission_classes = (AllowAny,)

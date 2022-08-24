@@ -21,7 +21,7 @@ class CourseList(APIView):
         serializer = CourseSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response({"response":"success !","data":serializer.data},status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
         
@@ -43,7 +43,7 @@ class CourseDetail(APIView):
         serializer = CourseSerializer(course,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({"response":"success !","data":serializer.data})
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self,request,pk,format=None):
@@ -52,7 +52,7 @@ class CourseDetail(APIView):
            course.delete()
         except:
             return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
-        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+        return Response("deleted !",status=status.HTTP_200_OK) 
        
     
 class TeachesList(APIView):
@@ -67,7 +67,7 @@ class TeachesList(APIView):
         serializer = TeachesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.create(request.data)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response({"response":"success","data":serializer.data},status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 class TeachesDetail(APIView):
@@ -85,7 +85,7 @@ class TeachesDetail(APIView):
         serializer = TeachesUpdateSerializer(teaches,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({"response":"success","data":serializer.data})
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -95,7 +95,7 @@ class TeachesDetail(APIView):
            teaches.delete()
         except:
             return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
-        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+        return Response("deleted !",status=status.HTTP_200_OK) 
     
     
 class EnrollList(APIView):
@@ -111,7 +111,7 @@ class EnrollList(APIView):
         serializer = EnrollSerializer(data=request.data)
         if serializer.is_valid():
                 serializer.create(request.data)
-                return Response(serializer.data,status=status.HTTP_201_CREATED)     
+                return Response({"response":"success","data":serializer.data},status=status.HTTP_201_CREATED)     
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 class EnrollDetail(APIView):
@@ -129,7 +129,7 @@ class EnrollDetail(APIView):
         serializer = EnrollUpdateSerializer(enroll,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({"response":"success","data":serializer.data})
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -139,8 +139,50 @@ class EnrollDetail(APIView):
            enroll.delete()
         except:
             return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
-        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+        return Response("deleted !",status=status.HTTP_200_OK) 
+ 
+class DoExamList(APIView):
+        
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self,request):
+        doexam= DoExam.objects.all()
+        serializer = DoexamlistSerializer(doexam,many=True)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(request_body=DoexamSerializer)
+    def post(self,request):
+        serializer = DoexamSerializer(data=request.data)
+        if serializer.is_valid():
+                serializer.create(request.data)
+                return Response({"response":"success","data":serializer.data},status=status.HTTP_201_CREATED)     
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
+class DoExamDetail(APIView):
+    
+    permission_classes = [permissions.IsAuthenticated]
+  
+    def get(self,request,pk):
+        doexam = get_object_or_404(DoExam,pk=pk)
+        serializer = DoexamlistSerializer(doexam)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(request_body=DoexamUpdateSerializer)
+    def put(self,request,pk): 
+        doexam = get_object_or_404(DoExam,pk=pk)
+        serializer = DoexamUpdateSerializer(doexam,data=request.data)
+        if serializer.is_valid():
+            serializer.update(pk,request.data)
+            return Response({"response":"success","data":serializer.data})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self,request,pk):
+        doexam = get_object_or_404(DoExam,pk=pk)
+        try:
+           doexam.delete()
+        except:
+            return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
+        return Response("deleted !",status=status.HTTP_200_OK)    
     
 class ResultList(APIView):
     
@@ -157,7 +199,7 @@ class ResultList(APIView):
         serializer = ResultSerializer(data=request.data)
         if serializer.is_valid():
             serializer.create(request.data)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response({"respnose":"success","data":serializer.data},status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 class ResultDetail(APIView):
@@ -181,7 +223,7 @@ class ResultDetail(APIView):
         serializer = ResultUpdateSerializer(result,data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({"response":"success","data":serializer.data})
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -191,7 +233,7 @@ class ResultDetail(APIView):
           result.delete()
         except:
             return Response("Error object can't be deleted ",status=status.HTTP_400_BAD_REQUEST)
-        return Response("deleted !",status=status.HTTP_204_NO_CONTENT) 
+        return Response("deleted !",status=status.HTTP_200_OK) 
 
     
 
