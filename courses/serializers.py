@@ -35,7 +35,7 @@ class DoexamSerializer(serializers.Serializer):
            enroll=Enroll.objects.get(student=student_id,course=course_id)
         except:
             raise Http404
-        if enroll is not None:
+        if enroll:
                 student=Student.objects.get(pk=student_id)
                 course=Course.objects.get(pk=course_id)
                 doexam=DoExam()
@@ -62,7 +62,7 @@ class DoexamUpdateSerializer(serializers.ModelSerializer):
            course_check=Enroll.objects.get(student=student,course=course_id)
         except:
             raise Http404
-        if course_check is not None:
+        if course_check :
             doexam=DoExam.objects.get(pk=pk)
             doexam.course=course
             doexam.save()
@@ -94,8 +94,7 @@ class TeachesSerializer(serializers.Serializer):
             course=Course.objects.get(pk=course_id)
         except:
             raise Http404
-        if teacher is not None:
-            if course is not None:
+        if teacher and course:
                 teaches=Teaches()
                 teaches.teacher=teacher
                 teaches.course=course
@@ -117,6 +116,7 @@ class EnrollSerializer(serializers.Serializer):
     
     def create(self,data):
         student_id=data['student_id']
+
         course_id=data['course_id']
         try:
            student=Student.objects.get(pk=student_id)
@@ -126,8 +126,7 @@ class EnrollSerializer(serializers.Serializer):
           course=Course.objects.get(pk=course_id)
         except:
             raise Http404
-        if student is not None:
-            if course is not None:
+        if student and course:
                 enroll=Enroll()
                 enroll.student=student
                 enroll.course=course
@@ -175,9 +174,8 @@ class ResultSerializer(serializers.Serializer):
           teacher_check=Teaches.objects.get(course=course_id,teacher=teacher_id)
         except:
             raise Http404
-        if student_check is not None:
-                if teacher_check is not None:
-                    
+        if student_check and teacher_check:
+     
                     course=Course.objects.get(pk=course_id)
                     student=Student.objects.get(pk=student_id)
                     teacher=Teacher.objects.get(pk=teacher_id)
