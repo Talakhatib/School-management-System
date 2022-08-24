@@ -135,6 +135,7 @@ class EnrollSerializer(serializers.Serializer):
 class EnrollUpdateSerializer(serializers.ModelSerializer):
       class Meta:
           model=Enroll
+          
           fields=['course']
        
     
