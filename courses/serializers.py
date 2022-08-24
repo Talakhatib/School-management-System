@@ -5,12 +5,12 @@ from unittest.util import _MAX_LENGTH
 from rest_framework import serializers
 from users.serializers import *
 from .models import *
-
+from django.http import Http404
 # for get method
 class CourseListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields =['name']
+        fields =['id','name','descriptions']
 # for post/put method 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,7 +19,7 @@ class CourseSerializer(serializers.ModelSerializer):
 #    get teaches     
 class TeachesListSerializer(serializers.ModelSerializer):
     teacher =TeacherListSerializer()
-    course= CourseListSerializer()
+    course= CourseSerializer()
     class Meta:
         model = Teaches
         fields=['course','teacher']
@@ -27,13 +27,20 @@ class TeachesListSerializer(serializers.ModelSerializer):
 # post teaches
 class TeachesSerializer(serializers.Serializer):
     teacher_id=serializers.IntegerField(required=True)
-    course_id=serializers.CharField(required=True)
+    course_id=serializers.IntegerField(required=True)
     
     def create(self,data):
         teacher_id=data['teacher_id']
-        teacher=Teacher.objects.get(pk=teacher_id)
+        try:
+           teacher=Teacher.objects.get(pk=teacher_id)
+        except:
+            return Http404
         course_id=data['course_id']
-        course=Course.objects.get(pk=course_id)
+        try:
+            
+           course=Course.objects.get(pk=course_id)
+        except:
+            return Http404
         if teacher is not None:
             if course is not None:
                 teaches=Teaches()
@@ -54,11 +61,14 @@ class TeachesUpdateSerializer(serializers.ModelSerializer):
 class EnrollSerializer(serializers.Serializer):
     
     student_id=serializers.IntegerField(required=True)
-    course_id=serializers.CharField(required=True)
+    course_id=serializers.IntegerField(required=True)
     
     def create(self,data):
         student_id=data['student_id']
-        student=Student.objects.get(pk=student_id)
+        try:
+           student=Student.objects.get(pk=student_id)
+        except:
+            return Http404
         course_id=data['course_id']
         course=Course.objects.get(pk=course_id)
         if student is not None:
