@@ -21,9 +21,16 @@ class UserDetailAPI(APIView):
 
 class ChangePasswordView(generics.UpdateAPIView):
     
-    queryset = User.objects.all()
+#     queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
-    serializer_class = ChangePasswordSerializer  
+#     serializer_class = ChangePasswordSerializer
+    @swagger_auto_schema(request_body=ChangePasswordSerializer)
+    def put(self,request,fomart=None):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.validate(request.data) and serializer.validate_old_password(request.user,request.data):
+            serializer.update(request.user,request.data)
+            return Response({"response":"success",},status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)  
         
        
     
