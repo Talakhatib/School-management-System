@@ -37,14 +37,15 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 # for get method of students
 class StudentListSerializer(serializers.ModelSerializer):
     # username=serializers.ReadOnlyField(source='user.username')
-    first_name= serializers.ReadOnlyField(source='user.first_name')
-    last_name= serializers.ReadOnlyField(source='user.last_name')
+    # first_name= serializers.ReadOnlyField(source='user.first_name')
+    # last_name= serializers.ReadOnlyField(source='user.last_name')
+    user=UserSerializer()
     # email= serializers.ReadOnlyField(source='user.email')
     # phone= serializers.ReadOnlyField(source='user.phone')
     # birthdate= serializers.ReadOnlyField(source='user.birthdate')
     class Meta:
         model= Student
-        fields=['first_name','last_name','language']
+        fields=['id','user','language']
         
         
 #   for post methods of students      
@@ -77,12 +78,13 @@ class StudentSerializer(serializers.Serializer):
 #  for get method of teachers       
 class TeacherListSerializer(serializers.ModelSerializer):
    
-    first_name= serializers.ReadOnlyField(source='user.first_name')
-    last_name= serializers.ReadOnlyField(source='user.last_name')
-    email= serializers.ReadOnlyField(source='user.email')
+    # first_name= serializers.ReadOnlyField(source='user.first_name')
+    # last_name= serializers.ReadOnlyField(source='user.last_name')
+    # email= serializers.ReadOnlyField(source='user.email')
+    user=UserSerializer()
     class Meta:
         model= Teacher
-        fields=['first_name','last_name','email','salary']
+        fields=['id','user','salary']
         
         
 # for post and put of teachers

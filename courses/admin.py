@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course,Teaches,Enroll,Result
+from .models import *
 # Register your models here.
 
 class CourseAdmin(admin.ModelAdmin):
@@ -18,7 +18,13 @@ class EnrollAdmin(admin.ModelAdmin):
 
 admin.site.register(Enroll,EnrollAdmin)
 
+class DoexamAdmin(admin.ModelAdmin):
+    list_display = ('id','student','course','date_created')
+    search_fields = ['user__username']
+
+admin.site.register(DoExam,DoexamAdmin)
+
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('id','student','teacher','course')
+    list_display = ('id','student','teacher','course','grade','date_created')
 
 admin.site.register(Result,ResultAdmin)
