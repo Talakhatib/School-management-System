@@ -21,9 +21,9 @@ class UserDetailAPI(APIView):
 
 class ChangePasswordView(generics.UpdateAPIView):
     
-#     queryset = User.objects.all()
+#   queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
-#     serializer_class = ChangePasswordSerializer
+    serializer_class = ChangePasswordSerializer
     @swagger_auto_schema(request_body=ChangePasswordSerializer)
     def put(self,request,fomart=None):
         serializer = ChangePasswordSerializer(data=request.data)
