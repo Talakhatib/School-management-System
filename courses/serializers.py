@@ -157,12 +157,16 @@ class ResultListSerializer(serializers.ModelSerializer):
         model = Result
         fields =['course','teacher','student','grade']
 # for post methods
-class ResultSerializer(serializers.Serializer):
+class ResultSerializer(serializers.ModelSerializer):
     teacher_id = serializers.IntegerField(required=True)
     student_id =serializers.IntegerField(required=True)
     course_id=serializers.IntegerField(required=True)
     grade=serializers.FloatField(required=True)
     
+    class Meta:
+        model=Result
+        fields=['teacher_id','student_id','course_id','grade']
+        
     def create(self,data):
         student_id=data['student_id']
         course_id=data['course_id']
@@ -175,18 +179,18 @@ class ResultSerializer(serializers.Serializer):
           teacher_check=Teaches.objects.get(course=course_id,teacher=teacher_id)
         except:
             raise Http404
-        if student_check and teacher_check:
-     
+        if student_check and teacher_check: 
                     course=Course.objects.get(pk=course_id)
                     student=Student.objects.get(pk=student_id)
                     teacher=Teacher.objects.get(pk=teacher_id)
-
                     result=Result()
                     result.student =student
                     result.course=course
                     result.teacher=teacher
                     result.grade=data['grade']
                     result.save()
+        else:
+            return Http404
                  
 # for put 
 class ResultUpdateSerializer(serializers.ModelSerializer):

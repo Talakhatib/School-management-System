@@ -37,13 +37,14 @@ class Result(models.Model):
     
     def save(self, *args, **kwargs):
         try:
-          object_teacher=Teaches.objects.get(course=self.course)
-          self.teacher=object_teacher.teacher
-          object_student=Enroll.objects.get(course=self.course)
-          self.student=object_student.student
-          super(Result, self).save(*args, **kwargs)
+           Teaches.objects.get(teacher=self.teacher,course=self.course)
+           DoExam.objects.get(student=self.student,course=self.course)
+           super(Result, self).save(*args, **kwargs)
         except:
             return Http404
+    
+         
+       
     
     
     
